@@ -7,6 +7,7 @@
    :dc-eclectic 
    :sb-concurrency 
    :sb-thread)
+  (:local-nicknames (:t :transducers))
   (:export
    apply-error
    apply-inputs

@@ -9,6 +9,7 @@
   :license "MIT License"
   :depends-on (:bianet-neuron
                :cl-ppcre
+               :zpng
                :dc-eclectic
                :sb-concurrency 
                :transducers)
