@@ -1,7 +1,7 @@
 (ql:quickload '(:zpng 
                 :png-read
                 :cl-ppcre
-                :transducers))
+                :cl-transducers))
 
 (asdf:defsystem :bianet-mesh
   :description "Build neural networks using bianet-neuron nodes."
@@ -12,7 +12,7 @@
                :zpng
                :dc-eclectic
                :sb-concurrency 
-               :transducers)
+               :cl-transducers)
   :serial t
   :components ((:file "bianet-mesh-package")
                (:file "bianet-mesh")
