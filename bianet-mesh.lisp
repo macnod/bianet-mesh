@@ -1,6 +1,7 @@
 (in-package :bianet-mesh)
 
 (defparameter *wait-for-output-timeout* 1.0)
+(defparameter *wait-for-backprop-timeout* 1.0)
 
 (defmacro with-neurons ((neurons-var neuron-count name)
                         &body body)
@@ -274,7 +275,7 @@ trains it to learn the XOR-gate table:
                               always (modulate neuron error))
                         (error "modulate failed")))
          (bp-wait (or (wait-for-backprop-p input-layer (1+ bp-count)
-                        *wait-for-output-timeout*)
+                        *wait-for-backprop-timeout*)
                       (error "wait-for-backprop-p failed"))))
     errors))
 
