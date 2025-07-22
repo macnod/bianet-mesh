@@ -1,5 +1,7 @@
 (in-package :bianet-mesh)
 
+(defparameter *wait-for-output-timeout* 1.0)
+
 (defmacro with-neurons ((neurons-var neuron-count name)
                         &body body)
   `(let ((,neurons-var
@@ -262,7 +264,8 @@ trains it to learn the XOR-gate table:
                             for input in inputs
                             always (excite neuron input))
                       (error "excite failed")))
-         (ff-wait (or (wait-for-output-p output-layer (1+ ff-count) 0.1)
+         (ff-wait (or (wait-for-output-p output-layer (1+ ff-count) 
+                        *wait-for-output-timeout*)
                       (error "wait-for-output-p failed")))
          (outputs (mapcar #'output output-layer))
          (errors (mapcar (lambda (e o) (- e o)) expected-outputs outputs))
@@ -270,7 +273,8 @@ trains it to learn the XOR-gate table:
                               for error in errors
                               always (modulate neuron error))
                         (error "modulate failed")))
-         (bp-wait (or (wait-for-backprop-p input-layer (1+ bp-count) 0.1)
+         (bp-wait (or (wait-for-backprop-p input-layer (1+ bp-count)
+                        *wait-for-output-timeout*)
                       (error "wait-for-backprop-p failed"))))
     errors))
 
@@ -280,7 +284,8 @@ trains it to learn the XOR-gate table:
                         for input in inputs
                         always (excite neuron input)))
          (ff-wait (when excited
-                    (wait-for-output-p output-layer (1+ ff-count) 0.1))))
+                    (wait-for-output-p output-layer (1+ ff-count)
+                      *wait-for-output-timeout*))))
     (when ff-wait (mapcar #'output output-layer))))
 
 (defmethod apply-inputs ((input-layer list) (inputs list))
